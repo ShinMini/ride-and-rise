@@ -10,6 +10,7 @@
       "baseUrl": "./",
       "paths": {
           "*": ["src/*"],
+          "Config": ["src/constants/config.ts"],
       },
       "types": [
           "react-native",

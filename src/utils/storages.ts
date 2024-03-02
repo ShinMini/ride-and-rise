@@ -6,6 +6,7 @@ import { LanguageType } from 'i18n';
 import { ThemeColor } from 'themes/colors';
 
 import * as SecureStore from 'expo-secure-store';
+import Config from 'constants/config';
 
 export enum KeyStorage {
     Language = 'rise_and_ride_language',
@@ -18,7 +19,7 @@ type StorageValue = LanguageType | ThemeColor;
 
 const storageConfig = {
     id: osInternalBuildId,
-    key: process.env.EXPO_PUBLIC_ENCRYPTION_KEY,
+    key: Config.ENCRYPTION_KEY
 } as const;
 
 export class Storage {
@@ -37,7 +38,7 @@ export class Storage {
         return encryptedKey;
     }
 
-    async get(key: KeyStorage): Promise<string | undefined> {
+    async get(key: KeyStorage| string): Promise<string | undefined> {
         const encryptedKey = this.getEncryptedKey(key);
 
         const value = await SecureStore.getItemAsync(encryptedKey);
@@ -45,21 +46,22 @@ export class Storage {
         return value;
     }
 
-    async set(key: KeyStorage, value: StorageValue | string) {
+    async set(key: KeyStorage| string, value: StorageValue | string) {
         const encryptedKey = this.getEncryptedKey(key);
-        const encryptedValue = await SecureStore.setItemAsync(encryptedKey, value);
+        await SecureStore.setItemAsync(encryptedKey, value);
 
-        console.log('[storage set] key, value:', encryptedKey, encryptedValue);
-
-        return encryptedValue;
+        console.log('[storage set] key:', encryptedKey);
+        return true;
     }
 
-    async remove(key: KeyStorage) {
-        return await SecureStore.deleteItemAsync(key);
+    async remove(key: KeyStorage| string) {
+        await SecureStore.deleteItemAsync(key);
+        return true
     }
 
     async clear() {
-        return await SecureStore.deleteItemAsync(storageConfig.id);
+        await SecureStore.deleteItemAsync(storageConfig.id);
+        return storageConfig.id;
     }
 }
 

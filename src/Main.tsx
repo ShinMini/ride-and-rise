@@ -5,19 +5,6 @@ import { useSetting } from 'contexts/SettingProvider';
 import scales from 'utils/scales';
 import Colors, { ThemeColor } from 'themes/colors';
 
-async function save(key, value) {
-  await SecureStore.setItemAsync(key, value);
-}
-
-async function getValueFor(key) {
-  let result = await SecureStore.getItemAsync(key);
-  if (result) {
-    Alert.alert("🔐 Here's your value 🔐 \n" + result);
-  } else {
-    Alert.alert('No values stored under that key.');
-  }
-}
-
 export default function App() {
   const { t, theme } = useSetting();
   const styles = myStyles(theme)
@@ -25,7 +12,7 @@ export default function App() {
   return (
     <View style={styles.container}>
       <Text style={styles.context}>
-        {t('taBar.home')}
+        {t('tabBar.home')}
       </Text>
     </View>
 

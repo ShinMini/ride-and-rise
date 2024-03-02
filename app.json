@@ -28,10 +28,18 @@
     },
     "plugins": [
       "expo-localization",
-      ["expo-secure-store",
-      {
-        "faceIDPermission": "Allow $(PRODUCT_NAME) to access your Face ID biometric data."
-      }]
-    ]
+      [
+        "expo-secure-store",
+        {
+          "faceIDPermission": "Allow $(PRODUCT_NAME) to access your Face ID biometric data."
+        }
+      ]
+    ],
+    "extra": {
+      "eas": {
+        "projectId": "6ac36a57-311f-4e1f-89fe-2f1c8dfe40cc"
+      }
+    },
+    "owner": "hyeonmini"
   }
 }
