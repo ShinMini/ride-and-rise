@@ -1,0 +1,9 @@
+{
+    "tabBar": {
+        "home": "홈",
+        "assets": "자산",
+        "sessionTerminated": "현재 세션이 종료되었습니다. 다시 로그인하십시오!",
+        "profile": "마이 프로필",
+        "myOrder": "나의 예약"
+    }
+}

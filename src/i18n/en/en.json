@@ -1,0 +1,9 @@
+{
+    "tabBar": {
+        "home": "Home",
+        "assets": "Assets",
+        "sessionTerminated": "Your current session is terminated. Please log in again!",
+        "profile": "Profile",
+        "myOrder": "My Order"
+    }
+}
