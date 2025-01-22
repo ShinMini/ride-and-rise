@@ -7,7 +7,8 @@ import type {PressableProps, ViewStyle} from 'react-native';
  * This spacing ensures the shadow has enough room to be rendered
  * without getting clipped.
  */
-export const DEFAULT_SHADOW_SPACE = {dx: 6, dy: 6} as const;
+// export const DEFAULT_SHADOW_SPACE = {dx: 6, dy: 6} as const;
+export const DEFAULT_SHADOW_SPACE = 6 as const;
 
 /**
  * Default values used when a particular prop isn't provided:
@@ -59,7 +60,7 @@ export type InnerShadowProps = {
 
   /**
    * Whether to enable reflected light (like a “highlight” on the opposite side of the shadow).
-   * @Defaults to true if inset is true, but can be overridden.
+   * @Default true
    */
   isReflectedLightEnabled?: boolean;
 
@@ -85,9 +86,9 @@ export type InnerShadowProps = {
   /**
    * Padding around the inside of the box. This helps prevent shadows
    * from being clipped by the container’s edges.
-   * @Defaults to { dx: 6, dy: 6 }.
+   * @Default 6
    */
-  shadowSpace?: {dx: number; dy: number};
+  shadowSpace?: number;
 
   /**
    * Explicitly setting width and height can improve performance by

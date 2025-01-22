@@ -16,6 +16,7 @@ export default function App() {
     <View style={styles.container}>
       <ShadowView
         inset
+        shadowSpace={9}
         shadowOffset={{width: shadowOffsetWidth, height: shadowOffsetHeight}}
         style={styles.shadowView}>
         <View
@@ -31,7 +32,8 @@ export default function App() {
       <LinearShadowView
         shadowOffset={{width: shadowOffsetWidth, height: shadowOffsetHeight}}
         style={styles.shadowView}
-        shadowSpace={{dx: 10, dy: 10}}
+        isReflectedLightEnabled
+        shadowSpace={9}
         colors={['#d3d0c9', '#393939']}
         from="top"
         to="right">
@@ -91,10 +93,10 @@ const styles = StyleSheet.create({
     backgroundColor: '#faffd1e7',
     justifyContent: 'center',
     alignItems: 'center',
-    width: 200,
-    height: 200,
+    width: '40%',
+    height: '20%',
     borderRadius: 14,
-    padding: 20,
+    padding: 30,
   },
   context: {
     fontSize: 24,

@@ -1,7 +1,7 @@
 import React from 'react';
-import { Canvas, RoundedRect, Shadow } from '@shopify/react-native-skia';
+import {Canvas, RoundedRect, Shadow} from '@shopify/react-native-skia';
 
-import type { InnerShadowProps } from './utils';
+import type {InnerShadowProps} from './utils';
 
 /**
  * ShadowCanvas
@@ -24,19 +24,8 @@ export default function ShadowCanvas({
   reflectedLightColor,
   reflectedLightOffset,
   reflectedLightBlur,
-  ...props
+  isReflectedLightEnabled,
 }: InnerShadowProps) {
-
-  /**
-   * Determine if the reflected light layer should be rendered.
-   * If `isReflectedLightEnabled` is explicitly set, use that.
-   * Otherwise, default to rendering reflected light if `inset` is true.
-   */
-  const isReflectedLightEnabled =
-    props.isReflectedLightEnabled !== undefined
-      ? props.isReflectedLightEnabled
-      : inset;
-
   /**
    * Extract a uniform corner radius from `style.borderRadius`.
    * If no radius is provided, default to 0 for sharp corners.
@@ -60,15 +49,14 @@ export default function ShadowCanvas({
           width,
           height,
         },
-      ]}
-    >
+      ]}>
       <RoundedRect
         // Shift the drawn box inward by shadowSpace.dx, shadowSpace.dy
         // to avoid clipping the shadow edges.
-        x={shadowSpace.dx}
-        y={shadowSpace.dy}
-        width={width - shadowSpace.dx * 2}
-        height={height - shadowSpace.dy * 2}
+        x={shadowSpace}
+        y={shadowSpace}
+        width={width - shadowSpace * 2}
+        height={height - shadowSpace * 2}
         r={boxRadius}
         color={backgroundColor} // The background fill of the rect
       >
