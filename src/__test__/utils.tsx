@@ -10,6 +10,10 @@ import type {PressableProps, ViewStyle} from 'react-native';
 // export const DEFAULT_SHADOW_SPACE = {dx: 6, dy: 6} as const;
 export const DEFAULT_SHADOW_SPACE = 6 as const;
 
+// These two scales are opposite each other to create a "reflected light" effect.
+const DEFAULT_SHADOW_OFFSET_SCALE = 2;
+const DEFAULT_REFLECTED_LIGHT_OFFSET_SCALE = 2;
+
 /**
  * Default values used when a particular prop isn't provided:
  *   - DEFAULT_BACKGROUND_COLOR: typical white background
@@ -17,8 +21,16 @@ export const DEFAULT_SHADOW_SPACE = 6 as const;
  *   - DEFAULT_SHADOW_COLOR: a dark, semi-transparent color for shadows
  */
 const DEFAULT_BACKGROUND_COLOR = '#FFFFFF' as const;
-const DEFAULT_REFLECTED_LIGHT_COLOR = '#FFFFFF94' as const;
+const DEFAULT_REFLECTED_LIGHT_COLOR = '#eee9e92d' as const;
 const DEFAULT_SHADOW_COLOR = '#2F2F2FBC' as const;
+
+/**
+ * Default shadow blur radius for the main shadow and reflected light.
+ * These values control how soft or diffuse the shadow/highlight appears.
+ * Higher values create larger, softer shadows.
+ * */
+const DEFAULT_SHADOW_BLUR = 3 as const;
+const DEFAULT_REFLECTED_LIGHT_BLUR = 3 as const;
 
 /**
  * InnerShadowProps defines the basic requirements for
@@ -54,13 +66,13 @@ export type InnerShadowProps = {
 
   /**
    * The blur radius for the main shadow. Higher values create softer, larger shadows.
-   * @Defaults to 3 for a visible spread.
+   * @Defaults 3 for a visible spread.
    */
   shadowBlur?: number;
 
   /**
    * Whether to enable reflected light (like a “highlight” on the opposite side of the shadow).
-   * @Default true
+   * @Default to true if inset is true, but can be overridden.
    */
   isReflectedLightEnabled?: boolean;
 
@@ -168,24 +180,34 @@ export function getBackgroundColor(
  * @param props - The props object containing shadow-related settings.
  * @returns {
  * shadowOffset, reflectedLightOffset, shadowColor, reflectedLightColor, shadowBlur, reflectedLightBlur}
- *
- *
  */
 export function getShadowProperty(props: Omit<InnerShadowProps, 'children'>) {
-  const SHADOW_OFFSET_WIDTH = props.shadowOffset?.width ?? 2;
-  const SHADOW_OFFSET_HEIGHT = props.shadowOffset?.height ?? 2;
+  const SHADOW_OFFSET_WIDTH =
+    props.shadowOffset?.width ?? DEFAULT_SHADOW_OFFSET_SCALE;
+  const SHADOW_OFFSET_HEIGHT =
+    props.shadowOffset?.height ?? DEFAULT_SHADOW_OFFSET_SCALE;
 
   // By default, the reflected light offset is the inverse of the main shadow
   // so it appears on the opposite corner/side.
   const REFLECTED_LIGHT_OFFSET_WIDTH =
-    props.reflectedLightOffset?.width ?? -SHADOW_OFFSET_WIDTH;
+    props.reflectedLightOffset?.width ??
+    (-SHADOW_OFFSET_WIDTH * DEFAULT_REFLECTED_LIGHT_OFFSET_SCALE !== 0
+      ? (-SHADOW_OFFSET_WIDTH * DEFAULT_REFLECTED_LIGHT_OFFSET_SCALE) /
+        SHADOW_OFFSET_WIDTH
+      : 0);
+
   const REFLECTED_LIGHT_OFFSET_HEIGHT =
-    props.reflectedLightOffset?.height ?? -SHADOW_OFFSET_HEIGHT;
+    props.reflectedLightOffset?.height ??
+    (-SHADOW_OFFSET_HEIGHT * DEFAULT_REFLECTED_LIGHT_OFFSET_SCALE !== 0
+      ? (-SHADOW_OFFSET_HEIGHT * DEFAULT_REFLECTED_LIGHT_OFFSET_SCALE) /
+        SHADOW_OFFSET_HEIGHT
+      : 0);
 
   // "Blur" here maps to how soft or large the shadow/highlight is.
   // The higher the number, the more diffuse the effect.
-  const shadowBlur = props.shadowBlur ?? 3;
-  const reflectedLightBlur = props.reflectedLightBlur ?? 3;
+  const shadowBlur = props.shadowBlur ?? DEFAULT_SHADOW_BLUR;
+  const reflectedLightBlur =
+    props.reflectedLightBlur ?? DEFAULT_REFLECTED_LIGHT_BLUR;
 
   // Fallback to the provided defaults if the user doesn't specify a color.
   const shadowColor = props.shadowColor ?? DEFAULT_SHADOW_COLOR;

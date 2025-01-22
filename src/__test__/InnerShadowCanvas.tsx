@@ -24,8 +24,18 @@ export default function ShadowCanvas({
   reflectedLightColor,
   reflectedLightOffset,
   reflectedLightBlur,
-  isReflectedLightEnabled,
+  ...props
 }: InnerShadowProps) {
+  /**
+   * Determine if the reflected light layer should be rendered.
+   * If `isReflectedLightEnabled` is explicitly set, use that.
+   * Otherwise, default to rendering reflected light if `inset` is true.
+   */
+  const isReflectedLightEnabled =
+    props.isReflectedLightEnabled !== undefined
+      ? props.isReflectedLightEnabled
+      : inset;
+
   /**
    * Extract a uniform corner radius from `style.borderRadius`.
    * If no radius is provided, default to 0 for sharp corners.

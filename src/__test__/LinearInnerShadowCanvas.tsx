@@ -31,8 +31,18 @@ export default function LinearShadowCanvas({
   from = 'top',
   to = 'bottom',
   colors = ['#FFFFFF', '#FFFFFF'],
-  isReflectedLightEnabled = true,
+  ...props
 }: LinearInnerShadowViewProps) {
+  /**
+   * Determine if the reflected light (highlight) should be rendered.
+   * If `isReflectedLightEnabled` is provided, that value is used;
+   * otherwise, it's true when `inset` is true.
+   */
+  const isReflectedLightEnabled =
+    props.isReflectedLightEnabled !== undefined
+      ? props.isReflectedLightEnabled
+      : inset;
+
   /**
    * Extract a uniform border radius from the style object,
    * falling back to 0 if none is defined.
